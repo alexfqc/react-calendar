@@ -20,6 +20,6 @@ export function loadHolidays(year, month) {
         }))))
         .catch(() => reject(dispatch(error())));
     }
-    return reject(dispatch(error()));
+    return dispatch(error());
   });
 }

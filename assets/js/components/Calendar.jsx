@@ -77,7 +77,7 @@ export class Calendar extends React.Component {
       const holi = holidays.filter(h => h.year === year && h.month === month)[0];
       if (!(holidays[0] && holidays[0].error)) {
         if (!holi) {
-          this.props.loadHolidays(year, month).catch(() => console.log('no holiday api key'));
+          this.props.loadHolidays(year, month);
         } else {
           this.setCalendar(new Date(year, month, 1), holi.data);
         }
