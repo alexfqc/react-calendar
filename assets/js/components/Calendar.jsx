@@ -62,7 +62,9 @@ export class Calendar extends React.Component {
   componentWillReceiveProps({ holidays }) {
     if (holidays !== this.props.holidays) {
       this.setState({ holidays: [...holidays] });
-      this.getMonthHoliday(this.state.year, this.state.month, holidays);
+      if (!(!!holidays[0] && !!holidays[0].error)) {
+        this.getMonthHoliday(this.state.year, this.state.month, holidays);
+      }
     }
   }
 
@@ -72,10 +74,9 @@ export class Calendar extends React.Component {
     this.setState({ year, month });
     const pastDate = (year === cYear && month < cMonth)
                       || year < cYear;
-
     if (pastDate) {
       const holi = holidays.filter(h => h.year === year && h.month === month)[0];
-      if (!(holidays[0] && holidays[0].error)) {
+      if (!(!!holidays[0] && !!holidays[0].error)) {
         if (!holi) {
           this.props.loadHolidays(year, month);
         } else {
