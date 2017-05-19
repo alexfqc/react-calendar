@@ -18,6 +18,8 @@ module.exports = {
     p: 'prop-types',
     r: 'react',
     re: 'redux',
+    rere: 'react-redux',
+    retu: 'redux-thunk',
     ro: 'react-router',
   },
   output: {
@@ -65,10 +67,7 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['a', 'd', 'p', 'r', 're', 'ro', 'manifest'],
-    }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
+      names: ['a', 'd', 'p', 'r', 're', 'rere', 'retu', 'ro', 'manifest'],
     }),
     new SassLintPlugin({
       configFile: '.sass-lint.yml',

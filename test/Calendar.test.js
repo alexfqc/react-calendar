@@ -51,12 +51,12 @@ describe('Calendar should render correctly', () => {
   it('should render currently month and year', () => {
     const headerDate = wrapper.find('.calendar-header-date');
 
-    expect(headerDate.text()).toEqual('Fevereiro de 2017');
+    expect(headerDate.text()).toEqual('2017 February');
     expect(headerDate.length).toEqual(1);
   });
 
   it('should render the weekdays keys and texts correctly', () => {
-    const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const weekdaysText = wrapper.find('.weekday').map(weekday => weekday.text());
     const weekDaysKey = wrapper.find('.weekday').map(weekday => weekday.key());
 
@@ -127,12 +127,12 @@ describe('Previous Calendar should render correctly', () => {
   it('should render currently month and year', () => {
     const headerDate = wrapper.find('.calendar-header-date');
 
-    expect(headerDate.text()).toEqual('Janeiro de 2017');
+    expect(headerDate.text()).toEqual('2017 January');
     expect(headerDate.length).toEqual(1);
   });
 
   it('should render the weekdays keys and texts correctly', () => {
-    const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const weekdaysText = wrapper.find('.weekday').map(weekday => weekday.text());
     const weekDaysKey = wrapper.find('.weekday').map(weekday => weekday.key());
 
@@ -204,12 +204,12 @@ describe('Forward Calendar should render correctly', () => {
   it('should render currently month and year', () => {
     const headerDate = wrapper.find('.calendar-header-date');
 
-    expect(headerDate.text()).toEqual('Fevereiro de 2017');
+    expect(headerDate.text()).toEqual('2017 February');
     expect(headerDate.length).toEqual(1);
   });
 
   it('should render the weekdays keys and texts correctly', () => {
-    const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const weekdaysText = wrapper.find('.weekday').map(weekday => weekday.text());
     const weekDaysKey = wrapper.find('.weekday').map(weekday => weekday.key());
 
