@@ -1,4 +1,4 @@
-import key from '../globals/key';
+import * as api from '../globals/api';
 
 export function addHolidays(holidays) {
   return { type: 'ADD_HOLIDAYS', holidays };
@@ -9,9 +9,10 @@ export function error() {
 }
 
 export function loadHolidays(year, month) {
-  const url = `https://holidayapi.com/v1/holidays?key=${key}&country=BR&year=${year}&month=${month + 1}`;
+  const country = api.country === '' ? 'BR' : api.country;
+  const url = `https://holidayapi.com/v1/holidays?key=${api.key}&country=${country}&year=${year}&month=${month + 1}`;
   return (dispatch, getState, { axios }) => new Promise((resolve, reject) => {
-    if (key) {
+    if (api.key) {
       return axios.get(url).then(holidays =>
         resolve(dispatch(addHolidays({
           year,

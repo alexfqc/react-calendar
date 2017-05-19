@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import key from '../assets/js/globals/key';
+import { key, country } from '../assets/js/globals/api';
 import * as holidaysActions from '../assets/js/actions/holidaysActions';
 
 describe('holidays Actions', () => {
@@ -37,8 +37,8 @@ describe('holidays Actions', () => {
     if (key) {
       it('should get holidays at month and return an object', (done) => {
         const mock = new MockAdapter(axios);
-
-        mock.onGet(`https://holidayapi.com/v1/holidays?key=${key}&country=BR&year=2017&month=2`).reply(200, {
+        const c = country === '' ? 'BR' : country;
+        mock.onGet(`https://holidayapi.com/v1/holidays?key=${key}&country=${c}&year=2017&month=2`).reply(200, {
           holidays: [
             {
               name: 'Carnaval',
