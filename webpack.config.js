@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const SassLintPlugin = require('sasslint-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -12,6 +13,12 @@ module.exports = {
   context: path.resolve(__dirname),
   entry: {
     app: './assets/js/components/index',
+    a: 'axios',
+    d: 'react-dom',
+    p: 'prop-types',
+    r: 'react',
+    re: 'redux',
+    ro: 'react-router',
   },
   output: {
     publicPath: '/dist/',
@@ -57,6 +64,12 @@ module.exports = {
     modules: [path.resolve(__dirname, 'node_modules')],
   },
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['a', 'd', 'p', 'r', 're', 'ro', 'manifest'],
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
     new SassLintPlugin({
       configFile: '.sass-lint.yml',
       context: [path.resolve(__dirname, './assets/scss/')],
