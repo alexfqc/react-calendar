@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as holidaysActions from '../actions/holidaysActions';
-// import key from '../globals/key';
 import '../../scss/style.scss';
 
 export class Calendar extends React.Component {
@@ -11,10 +10,10 @@ export class Calendar extends React.Component {
     this.state = {
       days: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
       months: [
-        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December',
       ],
-      weekDays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+      weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
       lastMonth: 11,
       month: 0,
       nextMonth: 1,
@@ -111,7 +110,7 @@ export class Calendar extends React.Component {
     const days = this.checkLeapYear(year);
     let nextMonthDay = 0;
 
-    const firstWeek = this.state.calendar[0].data.map((day, index) => {
+    const firstWeek = this.state.weekDays.map((day, index) => {
       let holiday = '';
       if (index < weekday) {
         const value = (days[lastMonth] - (weekday - index)) + 1;
@@ -137,7 +136,7 @@ export class Calendar extends React.Component {
         holiday,
       };
     });
-    const secondWeek = this.state.calendar[0].data.map((day, index) => {
+    const secondWeek = this.state.weekDays.map((day, index) => {
       const value = firstWeek[6].value + index + 1;
       let holiday = '';
       if (holidays !== undefined) {
@@ -154,7 +153,7 @@ export class Calendar extends React.Component {
         holiday,
       };
     });
-    const thirdWeek = this.state.calendar[0].data.map((day, index) => {
+    const thirdWeek = this.state.weekDays.map((day, index) => {
       const value = secondWeek[6].value + index + 1;
       let holiday = '';
       if (holidays !== undefined) {
@@ -171,7 +170,7 @@ export class Calendar extends React.Component {
         holiday,
       };
     });
-    const forthWeek = this.state.calendar[0].data.map((day, index) => {
+    const forthWeek = this.state.weekDays.map((day, index) => {
       const value = thirdWeek[6].value + index + 1;
       let holiday = '';
       if (holidays !== undefined) {
@@ -188,7 +187,7 @@ export class Calendar extends React.Component {
         holiday,
       };
     });
-    const fifthWeek = this.state.calendar[0].data.map((day, index) => {
+    const fifthWeek = this.state.weekDays.map((day, index) => {
       let holiday = '';
       if (forthWeek[6].value + index + 1 > days[month]) {
         nextMonthDay += 1;
@@ -214,7 +213,7 @@ export class Calendar extends React.Component {
         holiday,
       };
     });
-    const sixthWeek = this.state.calendar[0].data.map((day, index) => {
+    const sixthWeek = this.state.weekDays.map((day, index) => {
       let holiday = '';
       if (fifthWeek[6].value + index + 1 > days[month] || fifthWeek[6].value < 10) {
         nextMonthDay += 1;
@@ -280,21 +279,29 @@ export class Calendar extends React.Component {
   }
 
   render() {
+    const {
+      calendar,
+      holiday,
+      month,
+      months,
+      weekDays,
+      year,
+    } = this.state;
     return (
       <div className="calendar">
         <div className="calendar-header">
           <span className="button-container button-container--left">
             <button onClick={this.previousCalendar} className="button-content button-content--left" />
           </span>
-          <span className="calendar-header-date">{`${this.state.months[this.state.month]} de ${this.state.year}`}</span>
+          <span className="calendar-header-date">{`${year} ${months[month]}`}</span>
           <span className="button-container button-container--right">
             <button onClick={this.nextCalendar} className="button-content button-content--right" />
           </span>
         </div>
         <div className="week">
-          {this.state.weekDays.map(weekDay => <div key={weekDay} className="weekday">{weekDay}</div>)}
+          {weekDays.map(weekDay => <div key={weekDay} className="weekday">{weekDay}</div>)}
         </div>
-        {this.state.calendar.map(week =>
+        {calendar.map(week =>
           <div key={week.id} className="week">
             {week.data.map(day =>
               <div
@@ -308,7 +315,7 @@ export class Calendar extends React.Component {
             )}
           </div>,
         )}
-        <div className={`day-holiday-name ${this.state.holiday !== '' ? 'day-holiday-name--show' : ''}`}>{this.state.holiday}</div>
+        <div className={`day-holiday-name ${holiday !== '' ? 'day-holiday-name--show' : ''}`}>{holiday}</div>
       </div>
     );
   }
