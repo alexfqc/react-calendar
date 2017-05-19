@@ -2,7 +2,9 @@
 ---
 - Have NodeJS installed in your computer and a free key from holiday api.
 - Create your free account with your email and get your key at https://holidayapi.com/
-- Paste your key at ./assets/globals/key at key variable.
+- Use Live API Key to get holidays from the countries.
+- Paste your key at ./assets/globals/api on the key variable.
+- To change the holidays' list to another country take the country initial at https://holidayapi.com/ and paste at ./assets/globals/api on the country variable.
 
 ##### Technologies
 ---
