@@ -23,7 +23,7 @@ module.exports = {
     ro: 'react-router',
   },
   output: {
-    publicPath: '/dist/',
+    publicPath: '/',
     path: path.resolve('./dist/'),
     filename: '[name].[hash].js',
   },

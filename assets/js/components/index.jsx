@@ -1,20 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { browserHistory, Router } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import routes from './routes';
+import App from './App';
 import configureStore from '../store/configureStore';
-import DevTools from './DevTools';
-
-const isProduction = process.env.NODE_ENV === 'production';
 
 const store = configureStore();
 
 render(
   <Provider store={store} >
-    <div>
-      <Router history={browserHistory} routes={routes} />
-      {!isProduction && <DevTools />}
-    </div>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
 document.getElementById('root'));

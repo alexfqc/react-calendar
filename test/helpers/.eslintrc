@@ -2,10 +2,10 @@
   "env": {
     "browser": true
   },
-  parser: "babel-eslint",
+  "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.js", "**/*.spec.js"]}],
-    "no-undef": 0,
+    "no-undef": 0
   }
 }
