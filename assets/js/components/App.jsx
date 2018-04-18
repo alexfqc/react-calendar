@@ -2,6 +2,7 @@
 import React from 'react';
 import { injectGlobal } from 'styled-components';
 import Header from './header/Header';
+import Main from './main/Main';
 
 injectGlobal`
   html, body {
@@ -12,6 +13,7 @@ injectGlobal`
 const App = () => (
   <div>
     <Header />
+    <Main />
   </div>
 );
 export default App;
