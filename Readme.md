@@ -22,7 +22,7 @@
 
 - To install dependencies: **npm i**
 - To run tests: **npm test**
-- To run the project in development mode: **npm start** and open the url 'http://localhost:8080/dist/'
-- To run the project in production mode: **npm run build:server** and open the url 'http://localhost:8080/dist/'
+- To run the project in development mode: **npm start** and open the url 'http://localhost:8080/'
+- To run the project in production mode: **npm run build:server** and open the url 'http://localhost:8080/'
 - To make development bundle: **npm run dev**
 - To make production bundle: **npm run build**

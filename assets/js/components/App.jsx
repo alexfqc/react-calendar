@@ -1,26 +1,19 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react';
-import PropTypes from 'prop-types';
-import { IndexLink, Link } from 'react-router';
-import '../../scss/menu.scss';
+import { injectGlobal } from 'styled-components';
+import Header from './header/Header';
+import Main from './main/Main';
 
-const App = ({ children }) => (
+injectGlobal`
+  html, body {
+    margin: 0;
+  }
+`;
+
+const App = () => (
   <div>
-    <div className="menu-container">
-      <ul className="menu-container-ul">
-        <li className="menu-container-li">
-          <IndexLink className="menu-container-li-a" to="/dist/">Calendar</IndexLink>
-        </li>
-        <li className="menu-container-li">
-          <Link className="menu-container-li-a" to="/dist/other">Other</Link>
-        </li>
-      </ul>
-    </div>
-    {children}
+    <Header />
+    <Main />
   </div>
 );
-
-App.propTypes = {
-  children: PropTypes.node.isRequired,
-};
-
 export default App;

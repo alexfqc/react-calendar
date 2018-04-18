@@ -1,7 +1,10 @@
 import React from 'react';
 import expect from 'expect';
-import { mount } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import { Calendar } from '../assets/js/components/Calendar';
+
+Enzyme.configure({ adapter: new Adapter() });
 
 const props = {
   year: 2017,
@@ -66,7 +69,7 @@ describe('Calendar should render correctly', () => {
 
   it('should render the weeks keys correctly', () => {
     const weeks = wrapper.find('.week').map(week => week.key());
-    expect(weeks).toEqual([null, 'week-1', 'week-2', 'week-3', 'week-4', 'week-5', 'week-6']);
+    expect(weeks).toEqual([undefined, 'week-1', 'week-2', 'week-3', 'week-4', 'week-5', 'week-6']);
   });
 
   it('should render the days of first week (number) correctly', () => {
@@ -142,7 +145,7 @@ describe('Previous Calendar should render correctly', () => {
 
   it('should render the weeks keys correctly', () => {
     const weeks = wrapper.find('.week').map(week => week.key());
-    expect(weeks).toEqual([null, 'week-1', 'week-2', 'week-3', 'week-4', 'week-5', 'week-6']);
+    expect(weeks).toEqual([undefined, 'week-1', 'week-2', 'week-3', 'week-4', 'week-5', 'week-6']);
   });
 
   it('should render the days of first week (number) correctly', () => {
@@ -219,7 +222,7 @@ describe('Forward Calendar should render correctly', () => {
 
   it('should render the weeks keys correctly', () => {
     const weeks = wrapper.find('.week').map(week => week.key());
-    expect(weeks).toEqual([null, 'week-1', 'week-2', 'week-3', 'week-4', 'week-5', 'week-6']);
+    expect(weeks).toEqual([undefined, 'week-1', 'week-2', 'week-3', 'week-4', 'week-5', 'week-6']);
   });
 
   it('should render the days of first week (number) correctly', () => {
