@@ -56,13 +56,15 @@
   },
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server",
-    "test": "mocha test/helpers/browser.js test/*.test.js && eslint ./assets/js/*/**  && sass-lint './assets/scss/**/*.scss' -v -q",
+    "test": "mocha test/helpers/browser.js test/*.test.js && sass-lint './assets/scss/**/*.scss' -v -q",
+    "lint": "eslint ./assets/js/*/**.js*",
     "dev": "NODE_ENV=development webpack",
     "build": "NODE_ENV=production webpack -p",
     "build:server": "NODE_ENV=production webpack-dev-server -p"
   },
   "pre-commit": [
-    "test"
+    "test",
+    "lint"
   ],
   "repository": {
     "type": "git",
