@@ -1,12 +1,11 @@
-import test from 'ava';
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import expect from 'expect';
+import { renderIntoDocument, cleanup } from 'react-testing-library';
 import Other from '../assets/js/components/Other';
 
-Enzyme.configure({ adapter: new Adapter() });
+afterEach(cleanup);
 
-test('has a .Foo class name', (t) => {
-  const wrapper = shallow(<Other />);
-  t.pass(wrapper);
+it('should render', () => {
+  renderIntoDocument(<Other />);
+  expect(document.body).toBeDefined();
 });

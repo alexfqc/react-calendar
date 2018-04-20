@@ -44,6 +44,7 @@
     "pre-commit": "^1.2.2",
     "react-addons-test-utils": "^15.4.2",
     "react-hot-loader": "^4.1.0",
+    "react-testing-library": "^2.1.1",
     "redux-devtools": "^3.3.2",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.2.0",
@@ -59,7 +60,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode=development",
-    "test": "mocha --require babel-register --reporter spec test/helpers/setup.js \"test/*.test.js\"",
+    "test": "mocha --require babel-register --reporter spec test/helpers/setup.js \"test/*.spec.js\"",
     "lint": "eslint ./assets/js/*/**.js*",
     "dev": "NODE_ENV=development webpack",
     "build": "NODE_ENV=production webpack -p",
