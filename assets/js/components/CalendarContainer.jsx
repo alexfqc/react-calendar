@@ -1,6 +1,6 @@
 import React from 'react';
 /* eslint import/no-named-as-default:"off" */
-import Calendar from './Calendar';
+import Calendar from './calendar/Calendar';
 /* eslint-enable import/no-named-as-default */
 
 class CalendarContainer extends React.Component {
