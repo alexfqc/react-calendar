@@ -18,6 +18,7 @@
   "devDependencies": {
     "axios-mock-adapter": "^1.8.1",
     "babel-eslint": "^7.1.1",
+    "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -37,6 +38,7 @@
     "file-loader": "^0.10.1",
     "html-webpack-plugin": "^3.2.0",
     "ignore-styles": "^5.0.1",
+    "jest": "^22.4.3",
     "jsdom": "^11.8.0",
     "mocha": "^5.1.1",
     "node-sass": "^4.5.0",
@@ -44,6 +46,7 @@
     "pre-commit": "^1.2.2",
     "react-addons-test-utils": "^15.4.2",
     "react-hot-loader": "^4.1.0",
+    "react-test-renderer": "^16.3.2",
     "react-testing-library": "^2.1.1",
     "redux-devtools": "^3.3.2",
     "redux-devtools-dock-monitor": "^1.1.1",
@@ -60,7 +63,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode=development",
-    "test": "mocha --require babel-register --reporter spec test/helpers/setup.js \"test/*.spec.js\"",
+    "test": "jest",
     "lint": "eslint ./assets/js/*/**.js*",
     "dev": "NODE_ENV=development webpack",
     "build": "NODE_ENV=production webpack -p",
@@ -85,5 +88,16 @@
     "calendar",
     "redux",
     "holiday"
-  ]
+  ],
+  "jest": {
+    "testRegex": "test/.+\\.spec\\.(js|jsx)$",
+    "coverageThreshold": {
+      "global": {
+        "branches": 10,
+        "functions": 10,
+        "lines": 10,
+        "statements": -10
+      }
+    }
+  }
 }

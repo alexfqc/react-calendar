@@ -1,6 +1,6 @@
 import React from 'react';
 import expect from 'expect';
-import { mount } from 'enzyme';
+import { render } from 'react-testing-library';
 import { Calendar } from '../assets/js/components/calendar/Calendar';
 
 const props = {
@@ -36,8 +36,8 @@ const props = {
 };
 
 it('should render', () => {
-  const wrapper = mount(<Calendar {...props} />);
-  expect(wrapper.length).toBe(1);
+  const wrapper = render(<Calendar {...props} />);
+  expect(wrapper).toBeDefined();
 });
 
 // describe('Calendar should render correctly', () => {
