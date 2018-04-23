@@ -1,11 +1,12 @@
+import test from 'ava';
 import React from 'react';
-import expect from 'expect';
-import { renderIntoDocument, cleanup } from 'react-testing-library';
+// import expect from 'expect';
+import { renderIntoDocument } from 'react-testing-library';
 import Other from '../assets/js/components/Other';
 
-afterEach(cleanup);
+// afterEach(cleanup);
 
-it('should render', () => {
+test('has a .Foo class name', (t) => {
   renderIntoDocument(<Other />);
-  expect(document.body).toBeDefined();
+  t.pass();
 });

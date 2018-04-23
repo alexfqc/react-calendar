@@ -40,6 +40,11 @@ it('should render', () => {
   expect(wrapper).toBeDefined();
 });
 
+it('button render', () => {
+  const wrapper = render(<Calendar {...props} />);
+  expect(wrapper).toBeDefined();
+});
+
 // describe('Calendar should render correctly', () => {
 //   const wrapper = mount(<Calendar {...props} />);
 
