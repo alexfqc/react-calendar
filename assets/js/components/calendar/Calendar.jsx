@@ -4,6 +4,33 @@ import { connect } from 'react-redux';
 import * as holidaysActions from '../../actions/holidaysActions';
 import CalendarStyled from './Calendar.style';
 
+const mapDay = ({ index, weekday, days, lastMonth, holidays, month, year }) => {
+  let holiday = '';
+  if (index < weekday) {
+    const value = (days[lastMonth] - (weekday - index)) + 1;
+    return {
+      value,
+      class: 'soft',
+      month: lastMonth,
+      holiday,
+    };
+  }
+  const value = (index - weekday) + 1;
+  if (holidays !== undefined) {
+    holiday = holidays
+                .find(h => h.date === `${year}-${month + 1 < 10 ?
+                                      `0${month + 1}` : month + 1}-${value < 10 ? `0${value}` :
+                                      value}`);
+    holiday = holiday === undefined ? '' : holiday.name;
+  }
+  return {
+    value: (index - weekday) + 1,
+    class: '',
+    month,
+    holiday,
+  };
+};
+
 export class Calendar extends React.Component {
   constructor() {
     super();
@@ -21,12 +48,12 @@ export class Calendar extends React.Component {
       currentMonth: 0,
       currentYear: 0,
       calendar: [
-        { id: 'week-1', data: [0, 0, 0, 0, 0, 0, 0] },
-        { id: 'week-2', data: [0, 0, 0, 0, 0, 0, 0] },
-        { id: 'week-3', data: [0, 0, 0, 0, 0, 0, 0] },
-        { id: 'week-4', data: [0, 0, 0, 0, 0, 0, 0] },
-        { id: 'week-5', data: [0, 0, 0, 0, 0, 0, 0] },
-        { id: 'week-6', data: [0, 0, 0, 0, 0, 0, 0] },
+        { id: 'week-1', data: Array.from({ length: 7 }).fill(0) },
+        { id: 'week-2', data: Array.from({ length: 7 }).fill(0) },
+        { id: 'week-3', data: Array.from({ length: 7 }).fill(0) },
+        { id: 'week-4', data: Array.from({ length: 7 }).fill(0) },
+        { id: 'week-5', data: Array.from({ length: 7 }).fill(0) },
+        { id: 'week-6', data: Array.from({ length: 7 }).fill(0) },
       ],
       holidays: [],
       holiday: '',
@@ -105,38 +132,15 @@ export class Calendar extends React.Component {
 
   setCalendar(date, holidays) {
     const { lastMonth, month, nextMonth } = this.setMonth(date);
+    const { weekDays } = this.state;
     const year = date.getFullYear();
     const weekday = date.getDay();
     const days = this.checkLeapYear(year);
     let nextMonthDay = 0;
 
-    const firstWeek = this.state.weekDays.map((day, index) => {
-      let holiday = '';
-      if (index < weekday) {
-        const value = (days[lastMonth] - (weekday - index)) + 1;
-        return {
-          value,
-          class: 'soft',
-          month: lastMonth,
-          holiday,
-        };
-      }
-      const value = (index - weekday) + 1;
-      if (holidays !== undefined) {
-        holiday = holidays
-                    .find(h => h.date === `${year}-${month + 1 < 10 ?
-                                          `0${month + 1}` : month + 1}-${value < 10 ? `0${value}` :
-                                          value}`);
-        holiday = holiday === undefined ? '' : holiday.name;
-      }
-      return {
-        value: (index - weekday) + 1,
-        class: '',
-        month,
-        holiday,
-      };
-    });
-    const secondWeek = this.state.weekDays.map((day, index) => {
+    const firstWeek = weekDays.map(
+      (day, index) => mapDay({ index, weekday, days, lastMonth, holidays, month, year }));
+    const secondWeek = weekDays.map((day, index) => {
       const value = firstWeek[6].value + index + 1;
       let holiday = '';
       if (holidays !== undefined) {
@@ -153,7 +157,7 @@ export class Calendar extends React.Component {
         holiday,
       };
     });
-    const thirdWeek = this.state.weekDays.map((day, index) => {
+    const thirdWeek = weekDays.map((day, index) => {
       const value = secondWeek[6].value + index + 1;
       let holiday = '';
       if (holidays !== undefined) {
@@ -170,7 +174,7 @@ export class Calendar extends React.Component {
         holiday,
       };
     });
-    const forthWeek = this.state.weekDays.map((day, index) => {
+    const forthWeek = weekDays.map((day, index) => {
       const value = thirdWeek[6].value + index + 1;
       let holiday = '';
       if (holidays !== undefined) {
@@ -187,7 +191,7 @@ export class Calendar extends React.Component {
         holiday,
       };
     });
-    const fifthWeek = this.state.weekDays.map((day, index) => {
+    const fifthWeek = weekDays.map((day, index) => {
       let holiday = '';
       if (forthWeek[6].value + index + 1 > days[month]) {
         nextMonthDay += 1;
@@ -213,7 +217,7 @@ export class Calendar extends React.Component {
         holiday,
       };
     });
-    const sixthWeek = this.state.weekDays.map((day, index) => {
+    const sixthWeek = weekDays.map((day, index) => {
       let holiday = '';
       if (fifthWeek[6].value + index + 1 > days[month] || fifthWeek[6].value < 10) {
         nextMonthDay += 1;
