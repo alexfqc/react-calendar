@@ -14,3 +14,5 @@ render(
     </BrowserRouter>
   </Provider>,
 document.getElementById('root'));
+
+module.hot.accept();

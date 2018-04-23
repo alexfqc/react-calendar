@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as holidaysActions from '../actions/holidaysActions';
-import '../../scss/style.scss';
+import * as holidaysActions from '../../actions/holidaysActions';
+import CalendarStyled from './Calendar.style';
 
 export class Calendar extends React.Component {
   constructor() {
@@ -116,7 +116,7 @@ export class Calendar extends React.Component {
         const value = (days[lastMonth] - (weekday - index)) + 1;
         return {
           value,
-          class: 'day--soft',
+          class: 'soft',
           month: lastMonth,
           holiday,
         };
@@ -193,7 +193,7 @@ export class Calendar extends React.Component {
         nextMonthDay += 1;
         return {
           value: nextMonthDay,
-          class: 'day--soft',
+          class: 'soft',
           month: nextMonth,
           holiday,
         };
@@ -219,7 +219,7 @@ export class Calendar extends React.Component {
         nextMonthDay += 1;
         return {
           value: nextMonthDay,
-          class: 'day--soft',
+          class: 'soft',
           month: nextMonth,
           holiday,
         };
@@ -288,17 +288,17 @@ export class Calendar extends React.Component {
       year,
     } = this.state;
     return (
-      <div className="calendar">
-        <div className="calendar-header">
-          <span className="button-container button-container--left">
-            <button onClick={this.previousCalendar} className="button-content button-content--left" />
+      <CalendarStyled>
+        <header>
+          <span className="wrapper">
+            <button onClick={this.previousCalendar} className="left" data-testid="btn-left" />
           </span>
-          <span className="calendar-header-date">{`${year} ${months[month]}`}</span>
-          <span className="button-container button-container--right">
-            <button onClick={this.nextCalendar} className="button-content button-content--right" />
+          <span data-testid="date">{`${year} ${months[month]}`}</span>
+          <span className="wrapper">
+            <button onClick={this.nextCalendar} className="right" data-testid="btn-right" />
           </span>
-        </div>
-        <div className="week">
+        </header>
+        <div className="week" data-testid="weekdays">
           {weekDays.map(weekDay => <div key={weekDay} className="weekday">{weekDay}</div>)}
         </div>
         {calendar.map(week =>
@@ -306,7 +306,7 @@ export class Calendar extends React.Component {
             {week.data.map(day =>
               <div
                 key={`${day.month}${day.value}`}
-                className={`day ${day.holiday !== '' ? 'day--holiday' : day.class}`}
+                className={`day ${day.holiday !== '' ? 'holiday' : day.class}`}
                 onMouseOver={() => { if (day.holiday !== '') { this.setState({ holiday: day.holiday }); } }}
                 onMouseOut={() => { this.setState({ holiday: '' }); }}
               >
@@ -315,8 +315,8 @@ export class Calendar extends React.Component {
             )}
           </div>,
         )}
-        <div className={`day-holiday-name ${holiday !== '' ? 'day-holiday-name--show' : ''}`}>{holiday}</div>
-      </div>
+        <div className={`name ${holiday !== '' ? 'show' : ''}`}>{holiday}</div>
+      </CalendarStyled>
     );
   }
 }
@@ -347,18 +347,16 @@ Calendar.propTypes = {
   ).isRequired,
 };
 
-function mapStateToProps(state, ownProps) {
-  return {
+const mapStateToProps = (state, ownProps) =>
+  ({
     holidays: state.holidays,
     year: ownProps.year,
     month: ownProps.month,
-  };
-}
+  });
 
-function mapDispatchToProps(dispatch) {
-  return {
+const mapDispatchToProps = dispatch =>
+  ({
     loadHolidays: (year, month) => dispatch(holidaysActions.loadHolidays(year, month)),
-  };
-}
+  });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
