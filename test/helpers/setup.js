@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import jsdom from 'jsdom';
+import 'jest-dom/extend-expect';
 
 const copyProps = (src, target) => {
   const props = Object.getOwnPropertyNames(src)

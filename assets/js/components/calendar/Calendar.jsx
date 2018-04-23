@@ -291,11 +291,11 @@ export class Calendar extends React.Component {
       <CalendarStyled>
         <header>
           <span className="wrapper">
-            <button onClick={this.previousCalendar} className="left" />
+            <button onClick={this.previousCalendar} className="left" data-testid="btn-left" />
           </span>
-          <span className="calendar-header-date">{`${year} ${months[month]}`}</span>
+          <span data-testid="date">{`${year} ${months[month]}`}</span>
           <span className="wrapper">
-            <button onClick={this.nextCalendar} className="right" />
+            <button onClick={this.nextCalendar} className="right" data-testid="btn-right" />
           </span>
         </header>
         <div className="week">

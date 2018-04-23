@@ -1,5 +1,4 @@
 import React from 'react';
-import expect from 'expect';
 import { render } from 'react-testing-library';
 import { Calendar } from '../assets/js/components/calendar/Calendar';
 
@@ -40,25 +39,34 @@ it('should render', () => {
   expect(wrapper).toBeDefined();
 });
 
+it('should contain button left', () => {
+  const { getByTestId } = render(<Calendar {...props} />);
+  expect(getByTestId('btn-left')).toBeDefined();
+});
+
+it('should contain button right', () => {
+  const { getByTestId } = render(<Calendar {...props} />);
+  expect(getByTestId('btn-right')).toBeDefined();
+});
+
+it('should render currently month and year', () => {
+  const { getByTestId } = render(<Calendar {...props} />);
+  expect(getByTestId('date')).toHaveTextContent('2017 February');
+});
+
+it('should render the weekdays keys and texts correctly', () => {
+  // const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const { container } = render(<Calendar {...props} />);
+  expect(container.querySelector('.weekday')).toBeDefined();
+  // const weekdaysText = wrapper.find('.weekday').map(weekday => weekday.text());
+  // const weekDaysKey = wrapper.find('.weekday').map(weekday => weekday.key());
+
+  // expect(weekdaysText).toEqual(weekDays);
+  // expect(weekDaysKey).toEqual(weekDays);
+});
+
 // describe('Calendar should render correctly', () => {
 //   const wrapper = mount(<Calendar {...props} />);
-
-//   it('buttonLeft should be unique', () => {
-//     const buttonLeft = wrapper.find('.button-content--left');
-//     expect(buttonLeft.length).toEqual(1);
-//   });
-
-//   it('buttonRight should be unique', () => {
-//     const buttonRight = wrapper.find('.button-content--right');
-//     expect(buttonRight.length).toEqual(1);
-//   });
-
-//   it('should render currently month and year', () => {
-//     const headerDate = wrapper.find('.calendar-header-date');
-
-//     expect(headerDate.text()).toEqual('2017 February');
-//     expect(headerDate.length).toEqual(1);
-//   });
 
 //   it('should render the weekdays keys and texts correctly', () => {
 //     const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
