@@ -298,7 +298,7 @@ export class Calendar extends React.Component {
             <button onClick={this.nextCalendar} className="right" data-testid="btn-right" />
           </span>
         </header>
-        <div className="week">
+        <div className="week" data-testid="weekdays">
           {weekDays.map(weekDay => <div key={weekDay} className="weekday">{weekDay}</div>)}
         </div>
         {calendar.map(week =>
