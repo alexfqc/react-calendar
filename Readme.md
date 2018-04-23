@@ -11,15 +11,13 @@
 - React
 - Redux
 - Webpack
-- SASS
+- Styled Components
 - NPM scripts
 - ECMAScript 6
 - Eslint
-- SASS lint
 
 #### Instructions
 ---
-
 - To install dependencies: **npm i**
 - To run tests: **npm test**
 - To run the project in development mode: **npm start** and open the url 'http://localhost:8080/'
