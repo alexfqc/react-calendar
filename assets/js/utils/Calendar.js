@@ -11,4 +11,17 @@ export const nameHoliday = ({ holidays, month, day, year }) => {
   return '';
 };
 
-export const t = () => {};
+export const checkLeapYear = (year) => {
+  if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+    return [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  }
+  return [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+};
+
+export const setMonth = (date) => {
+  const month = date.getMonth();
+  const lastMonth = month === 0 ? 11 : month - 1;
+  const nextMonth = month === 11 ? 0 : month + 1;
+
+  return { lastMonth, month, nextMonth };
+};

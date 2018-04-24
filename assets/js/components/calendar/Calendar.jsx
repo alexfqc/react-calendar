@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as holidaysActions from '../../actions/holidaysActions';
 import CalendarStyled from './Calendar.style';
-import { nameHoliday } from '../../utils/Calendar';
+import { nameHoliday, checkLeapYear, setMonth } from '../../utils/Calendar';
 
 const mapFirstWeek = ({ index, weekday, days, lastMonth, holidays, month, year }) => {
   if (index < weekday) {
@@ -57,6 +57,7 @@ export class Calendar extends React.Component {
   }
 
   componentWillMount() {
+    const { holidays } = this.props;
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
@@ -72,7 +73,7 @@ export class Calendar extends React.Component {
       currentYear,
       month,
       year,
-      holidays: [...this.props.holidays],
+      holidays,
     });
 
     this.getMonthHoliday(year, month, this.props.holidays, currentYear, currentMonth);
@@ -80,7 +81,7 @@ export class Calendar extends React.Component {
 
   componentWillReceiveProps({ holidays }) {
     if (holidays !== this.props.holidays) {
-      this.setState({ holidays: [...holidays] });
+      this.setState({ holidays });
       if (!(!!holidays[0] && !!holidays[0].error)) {
         this.getMonthHoliday(this.state.year, this.state.month, holidays);
       }
@@ -109,58 +110,44 @@ export class Calendar extends React.Component {
     }
   }
 
-  setMonth(date) {
-    const month = date.getMonth();
-    const lastMonth = month === 0 ? 11 : month - 1;
-    const nextMonth = month === 11 ? 0 : month + 1;
-
-    this.setState({
-      lastMonth,
-      month,
-      nextMonth,
-    });
-
-    return { lastMonth, month, nextMonth };
-  }
-
   setCalendar(date, holidays) {
-    const { lastMonth, month, nextMonth } = this.setMonth(date);
-    const { weekDays } = this.state;
+    const { lastMonth, month, nextMonth } = setMonth(date);
+    const weekDays = Array.from({ length: 7 }).fill(1);
     const year = date.getFullYear();
     const weekday = date.getDay();
-    const days = this.checkLeapYear(year);
+    const days = checkLeapYear(year);
     let nextMonthDay = 0;
 
     const firstWeek = weekDays.map(
       (day, index) => mapFirstWeek({ index, weekday, days, lastMonth, holidays, month, year }));
-    const secondWeek = Array.from({ length: 7 }).fill(1).map((day, index) => {
-      const value = firstWeek[6].value + index + 1;
+    const secondWeek = weekDays.map((_, index) => {
+      const day = firstWeek[6].value + index + 1;
       return {
-        value,
+        value: day,
         class: '',
         month,
-        holiday: nameHoliday({ holidays, month, day: value, year }),
+        holiday: nameHoliday({ holidays, month, day, year }),
       };
     });
-    const thirdWeek = weekDays.map((day, index) => {
-      const value = secondWeek[6].value + index + 1;
+    const thirdWeek = weekDays.map((_, index) => {
+      const day = secondWeek[6].value + index + 1;
       return {
-        value,
+        value: day,
         class: '',
         month,
-        holiday: nameHoliday({ holidays, month, day: value, year }),
+        holiday: nameHoliday({ holidays, month, day, year }),
       };
     });
-    const forthWeek = weekDays.map((day, index) => {
-      const value = thirdWeek[6].value + index + 1;
+    const forthWeek = weekDays.map((_, index) => {
+      const day = thirdWeek[6].value + index + 1;
       return {
-        value,
+        value: day,
         class: '',
         month,
-        holiday: nameHoliday({ holidays, month, day: value, year }),
+        holiday: nameHoliday({ holidays, month, day, year }),
       };
     });
-    const fifthWeek = weekDays.map((day, index) => {
+    const fifthWeek = weekDays.map((_, index) => {
       if (forthWeek[6].value + index + 1 > days[month]) {
         nextMonthDay += 1;
         return {
@@ -170,15 +157,15 @@ export class Calendar extends React.Component {
           holiday: '',
         };
       }
-      const value = forthWeek[6].value + index + 1;
+      const day = forthWeek[6].value + index + 1;
       return {
-        value,
+        value: day,
         class: '',
         month,
-        holiday: nameHoliday({ holidays, month, day: value, year }),
+        holiday: nameHoliday({ holidays, month, day, year }),
       };
     });
-    const sixthWeek = weekDays.map((day, index) => {
+    const sixthWeek = weekDays.map((_, index) => {
       if (fifthWeek[6].value + index + 1 > days[month] || fifthWeek[6].value < 10) {
         nextMonthDay += 1;
         return {
@@ -189,17 +176,20 @@ export class Calendar extends React.Component {
         };
       }
 
-      const value = fifthWeek[6].value + index + 1;
+      const day = fifthWeek[6].value + index + 1;
       return {
-        value,
+        value: day,
         class: '',
         month,
-        holiday: nameHoliday({ holidays, month, day: value, year }),
+        holiday: nameHoliday({ holidays, month, day, year }),
       };
     });
 
     this.setState({
+      days,
+      lastMonth,
       month,
+      nextMonth,
       year,
       calendar: [
         { id: 'week-1', data: firstWeek },
@@ -212,27 +202,18 @@ export class Calendar extends React.Component {
     });
   }
 
-  checkLeapYear(year) {
-    let days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
-      days = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    }
-    this.setState({
-      days,
-    });
-    return days;
-  }
-
   previousCalendar() {
-    const month = this.state.month !== 0 ? this.state.month - 1 : 11;
-    const year = this.state.month !== 0 ? this.state.year : this.state.year - 1;
-    this.getMonthHoliday(year, month, this.state.holidays);
+    const { month, year, holidays } = this.state;
+    const previousMonth = month !== 0 ? month - 1 : 11;
+    const previousYear = month !== 0 ? year : year - 1;
+    this.getMonthHoliday(previousYear, previousMonth, holidays);
   }
 
   nextCalendar() {
-    const month = this.state.month !== 11 ? this.state.month + 1 : 0;
-    const year = this.state.month !== 11 ? this.state.year : this.state.year + 1;
-    this.getMonthHoliday(year, month, this.state.holidays);
+    const { month, year, holidays } = this.state;
+    const nextMonth = month !== 11 ? month + 1 : 0;
+    const nextYear = month !== 11 ? year : year + 1;
+    this.getMonthHoliday(nextYear, nextMonth, holidays);
   }
 
   render() {
