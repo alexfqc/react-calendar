@@ -3,31 +3,24 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as holidaysActions from '../../actions/holidaysActions';
 import CalendarStyled from './Calendar.style';
+import { nameHoliday } from '../../utils/Calendar';
 
-const mapDay = ({ index, weekday, days, lastMonth, holidays, month, year }) => {
-  let holiday = '';
+const mapFirstWeek = ({ index, weekday, days, lastMonth, holidays, month, year }) => {
   if (index < weekday) {
     const value = (days[lastMonth] - (weekday - index)) + 1;
     return {
       value,
       class: 'soft',
       month: lastMonth,
-      holiday,
+      holiday: nameHoliday({ holidays, month, day: value, year }),
     };
   }
   const value = (index - weekday) + 1;
-  if (holidays !== undefined) {
-    holiday = holidays
-                .find(h => h.date === `${year}-${month + 1 < 10 ?
-                                      `0${month + 1}` : month + 1}-${value < 10 ? `0${value}` :
-                                      value}`);
-    holiday = holiday === undefined ? '' : holiday.name;
-  }
   return {
     value: (index - weekday) + 1,
     class: '',
     month,
-    holiday,
+    holiday: nameHoliday({ holidays, month, day: value, year }),
   };
 };
 
@@ -139,109 +132,69 @@ export class Calendar extends React.Component {
     let nextMonthDay = 0;
 
     const firstWeek = weekDays.map(
-      (day, index) => mapDay({ index, weekday, days, lastMonth, holidays, month, year }));
-    const secondWeek = weekDays.map((day, index) => {
+      (day, index) => mapFirstWeek({ index, weekday, days, lastMonth, holidays, month, year }));
+    const secondWeek = Array.from({ length: 7 }).fill(1).map((day, index) => {
       const value = firstWeek[6].value + index + 1;
-      let holiday = '';
-      if (holidays !== undefined) {
-        holiday = holidays
-                    .find(h => h.date === `${year}-${month + 1 < 10 ?
-                                          `0${month + 1}` : month + 1}-${value < 10 ? `0${value}` :
-                                          value}`);
-        holiday = holiday === undefined ? '' : holiday.name;
-      }
       return {
         value,
         class: '',
         month,
-        holiday,
+        holiday: nameHoliday({ holidays, month, day: value, year }),
       };
     });
     const thirdWeek = weekDays.map((day, index) => {
       const value = secondWeek[6].value + index + 1;
-      let holiday = '';
-      if (holidays !== undefined) {
-        holiday = holidays
-                    .find(h => h.date === `${year}-${month + 1 < 10 ?
-                                          `0${month + 1}` : month + 1}-${value < 10 ? `0${value}` :
-                                          value}`);
-        holiday = holiday === undefined ? '' : holiday.name;
-      }
       return {
         value,
         class: '',
         month,
-        holiday,
+        holiday: nameHoliday({ holidays, month, day: value, year }),
       };
     });
     const forthWeek = weekDays.map((day, index) => {
       const value = thirdWeek[6].value + index + 1;
-      let holiday = '';
-      if (holidays !== undefined) {
-        holiday = holidays
-                    .find(h => h.date === `${year}-${month + 1 < 10 ?
-                                          `0${month + 1}` : month + 1}-${value < 10 ? `0${value}` :
-                                          value}`);
-        holiday = holiday === undefined ? '' : holiday.name;
-      }
       return {
         value,
         class: '',
         month,
-        holiday,
+        holiday: nameHoliday({ holidays, month, day: value, year }),
       };
     });
     const fifthWeek = weekDays.map((day, index) => {
-      let holiday = '';
       if (forthWeek[6].value + index + 1 > days[month]) {
         nextMonthDay += 1;
         return {
           value: nextMonthDay,
           class: 'soft',
           month: nextMonth,
-          holiday,
+          holiday: '',
         };
       }
       const value = forthWeek[6].value + index + 1;
-      if (holidays !== undefined) {
-        holiday = holidays
-                    .find(h => h.date === `${year}-${month + 1 < 10 ?
-                                          `0${month + 1}` : month + 1}-${value < 10 ? `0${value}` :
-                                          value}`);
-        holiday = holiday === undefined ? '' : holiday.name;
-      }
       return {
         value,
         class: '',
         month,
-        holiday,
+        holiday: nameHoliday({ holidays, month, day: value, year }),
       };
     });
     const sixthWeek = weekDays.map((day, index) => {
-      let holiday = '';
       if (fifthWeek[6].value + index + 1 > days[month] || fifthWeek[6].value < 10) {
         nextMonthDay += 1;
         return {
           value: nextMonthDay,
           class: 'soft',
           month: nextMonth,
-          holiday,
+          holiday: '',
         };
       }
 
       const value = fifthWeek[6].value + index + 1;
-      if (holidays !== undefined) {
-        holiday = holidays
-                    .find(h => h.date === `${year}-${month + 1 < 10 ?
-                                          `0${month + 1}` : month + 1}-${value < 10 ? `0${value}` :
-                                          value}`);
-        holiday = holiday === undefined ? '' : holiday.name;
-      }
       return {
         value,
         class: '',
         month,
-        holiday,
+        holiday: nameHoliday({ holidays, month, day: value, year }),
       };
     });
 
