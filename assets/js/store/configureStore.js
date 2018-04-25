@@ -1,6 +1,12 @@
-/* eslint-disable global-require */
-if (process.env.NODE_ENV === 'production') {
-  module.exports = require('./configureStore.prod.js');
-} else {
-  module.exports = require('./configureStore.dev.js');
+import { createStore, applyMiddleware } from 'redux';
+import axios from 'axios';
+import thunk from 'redux-thunk';
+import rootReducer from '../reducers';
+
+export default function configureStore(initialState) {
+  return createStore(
+    rootReducer,
+    initialState,
+    applyMiddleware(thunk.withExtraArgument({ axios })),
+  );
 }
