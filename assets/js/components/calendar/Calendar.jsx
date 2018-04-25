@@ -57,26 +57,24 @@ export class Calendar extends React.Component {
   }
 
   componentWillMount() {
-    const { holidays } = this.props;
+    const { holidays, year, month } = this.props;
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
-    const year = this.props.year < 100 ? currentYear : this.props.year;
-    const month = this.props.month < 1 ||
-                  this.props.month > 12 ||
-                  (this.props.year === 0 && this.props.month === 0) ?
+    const newYear = year < 100 ? currentYear : year;
+    const newMonth = month < 1 || month > 12 || (year === 0 && month === 0) ?
                   currentMonth :
-                  this.props.month - 1;
+                  month - 1;
 
     this.setState({
       currentMonth,
       currentYear,
-      month,
-      year,
+      newMonth,
+      year: newYear,
       holidays,
     });
 
-    this.getMonthHoliday(year, month, this.props.holidays, currentYear, currentMonth);
+    this.getMonthHoliday(newYear, newMonth, this.props.holidays, currentYear, currentMonth);
   }
 
   componentWillReceiveProps({ holidays }) {
@@ -88,12 +86,16 @@ export class Calendar extends React.Component {
     }
   }
 
-  getMonthHoliday(year, month, holidays, currentYear, currentMonth) {
-    const cYear = currentYear !== undefined ? currentYear : this.state.currentYear;
-    const cMonth = currentMonth !== undefined ? currentMonth : this.state.currentMonth;
+  getMonthHoliday(
+    year,
+    month,
+    holidays,
+    currentYear = this.state.currentYear,
+    currentMonth = this.state.currentMonth,
+  ) {
     this.setState({ year, month });
-    const pastDate = (year === cYear && month < cMonth)
-                      || year < cYear;
+    const pastDate = (year === currentYear && month < currentMonth)
+                      || year < currentYear;
     if (pastDate) {
       const holi = holidays.filter(h => h.year === year && h.month === month)[0];
       if (!(!!holidays[0] && !!holidays[0].error)) {
