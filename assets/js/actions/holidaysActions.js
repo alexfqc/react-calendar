@@ -4,9 +4,6 @@ export function addHolidays(holidays) {
   return { type: 'ADD_HOLIDAYS', holidays };
 }
 
-export function error() {
-  return { type: 'ERROR' };
-}
 
 export function loadHolidays(year, month) {
   const country = api.country === '' ? 'BR' : api.country;
@@ -19,8 +16,8 @@ export function loadHolidays(year, month) {
           month,
           data: holidays.data.holidays,
         }))))
-        .catch(() => reject(dispatch(error())));
+        .catch(() => reject(dispatch({ type: '' })));
     }
-    return dispatch(error());
+    return dispatch({ type: '' });
   });
 }

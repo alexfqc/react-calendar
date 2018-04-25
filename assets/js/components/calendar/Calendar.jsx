@@ -3,26 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as holidaysActions from '../../actions/holidaysActions';
 import CalendarStyled from './Calendar.style';
-import { nameHoliday, checkLeapYear, setMonth } from '../../utils/Calendar';
-
-const mapFirstWeek = ({ index, weekday, days, lastMonth, holidays, month, year }) => {
-  if (index < weekday) {
-    const value = (days[lastMonth] - (weekday - index)) + 1;
-    return {
-      value,
-      class: 'soft',
-      month: lastMonth,
-      holiday: nameHoliday({ holidays, month, day: value, year }),
-    };
-  }
-  const value = (index - weekday) + 1;
-  return {
-    value: (index - weekday) + 1,
-    class: '',
-    month,
-    holiday: nameHoliday({ holidays, month, day: value, year }),
-  };
-};
+import { nameHoliday, checkLeapYear, setMonth, setMiddleWeek, mapFirstWeek } from '../../utils/Calendar';
 
 export class Calendar extends React.Component {
   constructor() {
@@ -80,9 +61,7 @@ export class Calendar extends React.Component {
   componentWillReceiveProps({ holidays }) {
     if (holidays !== this.props.holidays) {
       this.setState({ holidays });
-      if (!(!!holidays[0] && !!holidays[0].error)) {
-        this.getMonthHoliday(this.state.year, this.state.month, holidays);
-      }
+      this.getMonthHoliday(this.state.year, this.state.month, holidays);
     }
   }
 
@@ -93,22 +72,19 @@ export class Calendar extends React.Component {
     currentYear = this.state.currentYear,
     currentMonth = this.state.currentMonth,
   ) {
-    this.setState({ year, month });
     const pastDate = (year === currentYear && month < currentMonth)
                       || year < currentYear;
-    if (pastDate) {
-      const holi = holidays.filter(h => h.year === year && h.month === month)[0];
-      if (!(!!holidays[0] && !!holidays[0].error)) {
-        if (!holi) {
-          this.props.loadHolidays(year, month);
-        } else {
-          this.setCalendar(new Date(year, month, 1), holi.data);
-        }
-      } else {
-        this.setCalendar(new Date(year, month, 1));
-      }
-    } else {
+
+    if (!pastDate) {
       this.setCalendar(new Date(year, month, 1));
+    } else {
+      const holiday = holidays.filter(h => h.year === year && h.month === month)[0];
+      if (!holiday) {
+        this.setCalendar(new Date(year, month, 1));
+        this.props.loadHolidays(year, month);
+      } else {
+        this.setCalendar(new Date(year, month, 1), holiday.data);
+      }
     }
   }
 
@@ -121,33 +97,27 @@ export class Calendar extends React.Component {
     let nextMonthDay = 0;
 
     const firstWeek = weekDays.map(
-      (day, index) => mapFirstWeek({ index, weekday, days, lastMonth, holidays, month, year }));
-    const secondWeek = weekDays.map((_, index) => {
-      const day = firstWeek[6].value + index + 1;
-      return {
-        value: day,
-        class: '',
-        month,
-        holiday: nameHoliday({ holidays, month, day, year }),
-      };
+      (_, index) => mapFirstWeek({ index, weekday, days, lastMonth, holidays, month, year }));
+    const secondWeek = setMiddleWeek({
+      weekDays,
+      initialValue: firstWeek[6].value,
+      month,
+      year,
+      holidays,
     });
-    const thirdWeek = weekDays.map((_, index) => {
-      const day = secondWeek[6].value + index + 1;
-      return {
-        value: day,
-        class: '',
-        month,
-        holiday: nameHoliday({ holidays, month, day, year }),
-      };
+    const thirdWeek = setMiddleWeek({
+      weekDays,
+      initialValue: secondWeek[6].value,
+      month,
+      year,
+      holidays,
     });
-    const forthWeek = weekDays.map((_, index) => {
-      const day = thirdWeek[6].value + index + 1;
-      return {
-        value: day,
-        class: '',
-        month,
-        holiday: nameHoliday({ holidays, month, day, year }),
-      };
+    const forthWeek = setMiddleWeek({
+      weekDays,
+      initialValue: thirdWeek[6].value,
+      month,
+      year,
+      holidays,
     });
     const fifthWeek = weekDays.map((_, index) => {
       if (forthWeek[6].value + index + 1 > days[month]) {

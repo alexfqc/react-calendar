@@ -25,3 +25,33 @@ export const setMonth = (date) => {
 
   return { lastMonth, month, nextMonth };
 };
+
+export const mapFirstWeek = ({ index, weekday, days, lastMonth, holidays, month, year }) => {
+  if (index < weekday) {
+    const value = (days[lastMonth] - (weekday - index)) + 1;
+    return {
+      value,
+      class: 'soft',
+      month: lastMonth,
+      holiday: nameHoliday({ holidays, month, day: value, year }),
+    };
+  }
+  const value = (index - weekday) + 1;
+  return {
+    value: (index - weekday) + 1,
+    class: '',
+    month,
+    holiday: nameHoliday({ holidays, month, day: value, year }),
+  };
+};
+
+export const setMiddleWeek = ({ weekDays, initialValue, month, year, holidays }) =>
+  weekDays.map((_, index) => {
+    const day = initialValue + index + 1;
+    return {
+      value: day,
+      class: '',
+      month,
+      holiday: nameHoliday({ holidays, month, day, year }),
+    };
+  });
