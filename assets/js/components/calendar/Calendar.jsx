@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as holidaysActions from '../../actions/holidaysActions';
 import CalendarStyled from './Calendar.style';
-import { nameHoliday, checkLeapYear, setMonth, setMiddleWeek, mapFirstWeek } from '../../utils/Calendar';
+import { checkLeapYear, setMonth, setWeeks } from '../../utils/Calendar';
 
 export class Calendar extends React.Component {
   constructor() {
@@ -94,67 +94,23 @@ export class Calendar extends React.Component {
     const year = date.getFullYear();
     const weekday = date.getDay();
     const days = checkLeapYear(year);
-    let nextMonthDay = 0;
 
-    const firstWeek = weekDays.map(
-      (_, index) => mapFirstWeek({ index, weekday, days, lastMonth, holidays, month, year }));
-    const secondWeek = setMiddleWeek({
+    const {
+      firstWeek,
+      secondWeek,
+      thirdWeek,
+      forthWeek,
+      fifthWeek,
+      sixthWeek,
+    } = setWeeks({
       weekDays,
-      initialValue: firstWeek[6].value,
+      weekday,
+      days,
+      lastMonth,
+      holidays,
       month,
       year,
-      holidays,
-    });
-    const thirdWeek = setMiddleWeek({
-      weekDays,
-      initialValue: secondWeek[6].value,
-      month,
-      year,
-      holidays,
-    });
-    const forthWeek = setMiddleWeek({
-      weekDays,
-      initialValue: thirdWeek[6].value,
-      month,
-      year,
-      holidays,
-    });
-    const fifthWeek = weekDays.map((_, index) => {
-      if (forthWeek[6].value + index + 1 > days[month]) {
-        nextMonthDay += 1;
-        return {
-          value: nextMonthDay,
-          class: 'soft',
-          month: nextMonth,
-          holiday: '',
-        };
-      }
-      const day = forthWeek[6].value + index + 1;
-      return {
-        value: day,
-        class: '',
-        month,
-        holiday: nameHoliday({ holidays, month, day, year }),
-      };
-    });
-    const sixthWeek = weekDays.map((_, index) => {
-      if (fifthWeek[6].value + index + 1 > days[month] || fifthWeek[6].value < 10) {
-        nextMonthDay += 1;
-        return {
-          value: nextMonthDay,
-          class: 'soft',
-          month: nextMonth,
-          holiday: '',
-        };
-      }
-
-      const day = fifthWeek[6].value + index + 1;
-      return {
-        value: day,
-        class: '',
-        month,
-        holiday: nameHoliday({ holidays, month, day, year }),
-      };
+      nextMonth,
     });
 
     this.setState({
@@ -215,7 +171,7 @@ export class Calendar extends React.Component {
           <div key={week.id} className="week">
             {week.data.map(day =>
               <div
-                key={`${day.month}${day.value}`}
+                key={`${day.month}${day.value}${day.class}`}
                 className={`day ${day.holiday !== '' ? 'holiday' : day.class}`}
                 onMouseOver={() => { if (day.holiday !== '') { this.setState({ holiday: day.holiday }); } }}
                 onMouseOut={() => { this.setState({ holiday: '' }); }}
