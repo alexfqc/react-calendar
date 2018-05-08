@@ -5,7 +5,7 @@ const makeEnDate = ({ month, year, day }) => `${year}-${month + 1 < 10 ?
 const nameHoliday = ({ holidays, month, day, year }) => {
   if (holidays) {
     const holiday = holidays
-                .find(holidayData => holidayData.date === makeEnDate({ month, year, day }));
+                .find(({ date }) => date === makeEnDate({ month, year, day }));
     return (holiday && holiday.name) || '';
   }
   return '';
