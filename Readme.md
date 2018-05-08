@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/alexfqc/react-calendar.svg?style=shield)](https://circleci.com/gh/alexfqc/react-calendar)
+
 #### Pre-requirements
 ---
 - Have NodeJS installed in your computer and a free key from holiday api.
