@@ -1,7 +1,18 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
-import CalendarContainer from '../CalendarContainer';
-import Other from '../Other';
+import Loadable from 'react-loadable';
+
+const Loading = () => <div>Loading...</div>;
+
+const CalendarContainer = Loadable({
+  loader: () => import('../CalendarContainer'),
+  loading: Loading,
+});
+
+const Other = Loadable({
+  loader: () => import('../Other'),
+  loading: Loading,
+});
 
 const Main = () => (
   <main>
