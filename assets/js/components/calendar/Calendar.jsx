@@ -3,18 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as holidaysActions from '../../actions/holidaysActions';
 import CalendarStyled from './Calendar.style';
-import { nameHoliday, checkLeapYear, setMonth, setMiddleWeek, mapFirstWeek } from '../../utils/Calendar';
+import { checkLeapYear, setMonth, setWeeks } from '../../utils/Calendar';
+import { MONTHS, WEEKDAYS } from '../../utils/constants';
 
 export class Calendar extends React.Component {
   constructor() {
     super();
     this.state = {
-      days: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-      months: [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December',
-      ],
-      weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      days: [],
       lastMonth: 11,
       month: 0,
       nextMonth: 1,
@@ -22,12 +18,12 @@ export class Calendar extends React.Component {
       currentMonth: 0,
       currentYear: 0,
       calendar: [
-        { id: 'week-1', data: Array.from({ length: 7 }).fill(0) },
-        { id: 'week-2', data: Array.from({ length: 7 }).fill(0) },
-        { id: 'week-3', data: Array.from({ length: 7 }).fill(0) },
-        { id: 'week-4', data: Array.from({ length: 7 }).fill(0) },
-        { id: 'week-5', data: Array.from({ length: 7 }).fill(0) },
-        { id: 'week-6', data: Array.from({ length: 7 }).fill(0) },
+        { id: 'week-1', data: [] },
+        { id: 'week-2', data: [] },
+        { id: 'week-3', data: [] },
+        { id: 'week-4', data: [] },
+        { id: 'week-5', data: [] },
+        { id: 'week-6', data: [] },
       ],
       holidays: [],
       holiday: '',
@@ -89,72 +85,26 @@ export class Calendar extends React.Component {
   }
 
   setCalendar(date, holidays) {
-    const { lastMonth, month, nextMonth } = setMonth(date);
-    const weekDays = Array.from({ length: 7 }).fill(1);
+    const { lastMonth, month, nextMonth } = setMonth(date.getMonth());
     const year = date.getFullYear();
     const weekday = date.getDay();
     const days = checkLeapYear(year);
-    let nextMonthDay = 0;
 
-    const firstWeek = weekDays.map(
-      (_, index) => mapFirstWeek({ index, weekday, days, lastMonth, holidays, month, year }));
-    const secondWeek = setMiddleWeek({
-      weekDays,
-      initialValue: firstWeek[6].value,
+    const {
+      firstWeek,
+      secondWeek,
+      thirdWeek,
+      forthWeek,
+      fifthWeek,
+      sixthWeek,
+    } = setWeeks({
+      weekday,
+      days,
+      lastMonth,
+      holidays,
       month,
       year,
-      holidays,
-    });
-    const thirdWeek = setMiddleWeek({
-      weekDays,
-      initialValue: secondWeek[6].value,
-      month,
-      year,
-      holidays,
-    });
-    const forthWeek = setMiddleWeek({
-      weekDays,
-      initialValue: thirdWeek[6].value,
-      month,
-      year,
-      holidays,
-    });
-    const fifthWeek = weekDays.map((_, index) => {
-      if (forthWeek[6].value + index + 1 > days[month]) {
-        nextMonthDay += 1;
-        return {
-          value: nextMonthDay,
-          class: 'soft',
-          month: nextMonth,
-          holiday: '',
-        };
-      }
-      const day = forthWeek[6].value + index + 1;
-      return {
-        value: day,
-        class: '',
-        month,
-        holiday: nameHoliday({ holidays, month, day, year }),
-      };
-    });
-    const sixthWeek = weekDays.map((_, index) => {
-      if (fifthWeek[6].value + index + 1 > days[month] || fifthWeek[6].value < 10) {
-        nextMonthDay += 1;
-        return {
-          value: nextMonthDay,
-          class: 'soft',
-          month: nextMonth,
-          holiday: '',
-        };
-      }
-
-      const day = fifthWeek[6].value + index + 1;
-      return {
-        value: day,
-        class: '',
-        month,
-        holiday: nameHoliday({ holidays, month, day, year }),
-      };
+      nextMonth,
     });
 
     this.setState({
@@ -193,8 +143,6 @@ export class Calendar extends React.Component {
       calendar,
       holiday,
       month,
-      months,
-      weekDays,
       year,
     } = this.state;
     return (
@@ -203,19 +151,19 @@ export class Calendar extends React.Component {
           <span className="wrapper">
             <button onClick={this.previousCalendar} className="left" data-testid="btn-left" />
           </span>
-          <span data-testid="date">{`${year} ${months[month]}`}</span>
+          <span data-testid="date">{`${year} ${MONTHS[month]}`}</span>
           <span className="wrapper">
             <button onClick={this.nextCalendar} className="right" data-testid="btn-right" />
           </span>
         </header>
         <div className="week" data-testid="weekdays">
-          {weekDays.map(weekDay => <div key={weekDay} className="weekday">{weekDay}</div>)}
+          {WEEKDAYS.map(weekDay => <div key={weekDay} className="weekday">{weekDay}</div>)}
         </div>
         {calendar.map(week =>
           <div key={week.id} className="week">
             {week.data.map(day =>
               <div
-                key={`${day.month}${day.value}`}
+                key={`${day.month}${day.value}${day.class}`}
                 className={`day ${day.holiday !== '' ? 'holiday' : day.class}`}
                 onMouseOver={() => { if (day.holiday !== '') { this.setState({ holiday: day.holiday }); } }}
                 onMouseOut={() => { this.setState({ holiday: '' }); }}
