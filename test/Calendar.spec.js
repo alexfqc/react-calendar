@@ -68,54 +68,54 @@ it('should render the weekdays keys and texts correctly', () => {
 it('should render the days of first week (number) correctly', () => {
   const { container } = render(<Calendar {...props} />);
   const [, first] = container.querySelectorAll('.week');
-  const resultDays = Array.from(first.childNodes).map(day => day.innerHTML);
+  const resultDays = Array.from(first.childNodes, day => day.innerHTML);
   expect(resultDays).toEqual(['29', '30', '31', '01', '02', '03', '04']);
 });
 
 it('should render the days of second week (number) correctly', () => {
   const { container } = render(<Calendar {...props} />);
   const [, , second] = container.querySelectorAll('.week');
-  const resultDays = Array.from(second.childNodes).map(day => day.innerHTML);
+  const resultDays = Array.from(second.childNodes, day => day.innerHTML);
   expect(resultDays).toEqual(['05', '06', '07', '08', '09', '10', '11']);
 });
 
 it('should render the days of third week (number) correctly', () => {
   const { container } = render(<Calendar {...props} />);
   const [, , , third] = container.querySelectorAll('.week');
-  const resultDays = Array.from(third.childNodes).map(day => day.innerHTML);
+  const resultDays = Array.from(third.childNodes, day => day.innerHTML);
   expect(resultDays).toEqual(['12', '13', '14', '15', '16', '17', '18']);
 });
 
 it('should render the days of fourth week (number) correctly', () => {
   const { container } = render(<Calendar {...props} />);
   const [, , , , fourth] = container.querySelectorAll('.week');
-  const resultDays = Array.from(fourth.childNodes).map(day => day.innerHTML);
+  const resultDays = Array.from(fourth.childNodes, day => day.innerHTML);
   expect(resultDays).toEqual(['19', '20', '21', '22', '23', '24', '25']);
 });
 
 it('should render the days of fifth week (number) correctly', () => {
   const { container } = render(<Calendar {...props} />);
   const [, , , , , fifth] = container.querySelectorAll('.week');
-  const resultDays = Array.from(fifth.childNodes).map(day => day.innerHTML);
+  const resultDays = Array.from(fifth.childNodes, day => day.innerHTML);
   expect(resultDays).toEqual(['26', '27', '28', '01', '02', '03', '04']);
 });
 
 it('should render the days of sixtfh week (number) correctly', () => {
   const { container } = render(<Calendar {...props} />);
   const [, , , , , , sixtfh] = container.querySelectorAll('.week');
-  const resultDays = Array.from(sixtfh.childNodes).map(day => day.innerHTML);
+  const resultDays = Array.from(sixtfh.childNodes, day => day.innerHTML);
   expect(resultDays).toEqual(['05', '06', '07', '08', '09', '10', '11']);
 });
 
 it('holidays should be styled correctly', () => {
   const { container } = render(<Calendar {...props} />);
-  const holidays = Array.from(container.querySelectorAll('.holiday')).map(day => day.innerHTML);
+  const holidays = Array.from(container.querySelectorAll('.holiday'), day => day.innerHTML);
   expect(holidays).toEqual(['28']);
 });
 
 it('Other months days should be styled correctly', () => {
   const { container } = render(<Calendar {...props} />);
-  const soft = Array.from(container.querySelectorAll('.soft')).map(day => day.innerHTML);
+  const soft = Array.from(container.querySelectorAll('.soft'), day => day.innerHTML);
   expect(soft).toEqual(['29', '30', '31', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11']);
 });
 
@@ -132,7 +132,7 @@ describe('Previous Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-left'));
     await wait(() => container.querySelectorAll('.week'));
     const [, first] = container.querySelectorAll('.week');
-    const resultDays = Array.from(first.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(first.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['01', '02', '03', '04', '05', '06', '07']);
   });
 
@@ -141,7 +141,7 @@ describe('Previous Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-left'));
     await wait(() => container.querySelectorAll('.week'));
     const [, , second] = container.querySelectorAll('.week');
-    const resultDays = Array.from(second.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(second.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['08', '09', '10', '11', '12', '13', '14']);
   });
 
@@ -150,7 +150,7 @@ describe('Previous Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-left'));
     await wait(() => container.querySelectorAll('.week'));
     const [, , , third] = container.querySelectorAll('.week');
-    const resultDays = Array.from(third.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(third.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['15', '16', '17', '18', '19', '20', '21']);
   });
 
@@ -159,7 +159,7 @@ describe('Previous Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-left'));
     await wait(() => container.querySelectorAll('.week'));
     const [, , , , fourth] = container.querySelectorAll('.week');
-    const resultDays = Array.from(fourth.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(fourth.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['22', '23', '24', '25', '26', '27', '28']);
   });
 
@@ -168,7 +168,7 @@ describe('Previous Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-left'));
     await wait(() => container.querySelectorAll('.week'));
     const [, , , , , fifth] = container.querySelectorAll('.week');
-    const resultDays = Array.from(fifth.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(fifth.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['29', '30', '31', '01', '02', '03', '04']);
   });
 
@@ -177,7 +177,7 @@ describe('Previous Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-left'));
     await wait(() => container.querySelectorAll('.week'));
     const [, , , , , , sixth] = container.querySelectorAll('.week');
-    const resultDays = Array.from(sixth.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(sixth.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['05', '06', '07', '08', '09', '10', '11']);
   });
 
@@ -185,7 +185,7 @@ describe('Previous Calendar should render correctly', () => {
     const { container, getByTestId } = render(<Calendar {...props} />);
     Simulate.click(getByTestId('btn-left'));
     await wait(() => container.querySelectorAll('.holiday'));
-    const holidays = Array.from(container.querySelectorAll('.holiday')).map(day => day.innerHTML);
+    const holidays = Array.from(container.querySelectorAll('.holiday'), day => day.innerHTML);
     expect(holidays).toEqual(['01']);
   });
 
@@ -193,7 +193,7 @@ describe('Previous Calendar should render correctly', () => {
     const { container, getByTestId } = render(<Calendar {...props} />);
     Simulate.click(getByTestId('btn-left'));
     await wait(() => container.querySelectorAll('.soft'));
-    const soft = Array.from(container.querySelectorAll('.soft')).map(day => day.innerHTML);
+    const soft = Array.from(container.querySelectorAll('.soft'), day => day.innerHTML);
     expect(soft).toEqual(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11']);
   });
 });
@@ -213,7 +213,7 @@ describe('Forward Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-right'));
     await wait(() => container.querySelectorAll('.week'));
     const [, first] = container.querySelectorAll('.week');
-    const resultDays = Array.from(first.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(first.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['29', '30', '31', '01', '02', '03', '04']);
   });
 
@@ -223,7 +223,7 @@ describe('Forward Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-right'));
     await wait(() => container.querySelectorAll('.week'));
     const [, , second] = container.querySelectorAll('.week');
-    const resultDays = Array.from(second.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(second.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['05', '06', '07', '08', '09', '10', '11']);
   });
 
@@ -233,7 +233,7 @@ describe('Forward Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-right'));
     await wait(() => container.querySelectorAll('.week'));
     const [, , , third] = container.querySelectorAll('.week');
-    const resultDays = Array.from(third.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(third.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['12', '13', '14', '15', '16', '17', '18']);
   });
 
@@ -243,7 +243,7 @@ describe('Forward Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-right'));
     await wait(() => container.querySelectorAll('.week'));
     const [, , , , fourth] = container.querySelectorAll('.week');
-    const resultDays = Array.from(fourth.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(fourth.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['19', '20', '21', '22', '23', '24', '25']);
   });
 
@@ -253,7 +253,7 @@ describe('Forward Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-right'));
     await wait(() => container.querySelectorAll('.week'));
     const [, , , , , fifth] = container.querySelectorAll('.week');
-    const resultDays = Array.from(fifth.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(fifth.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['26', '27', '28', '01', '02', '03', '04']);
   });
 
@@ -263,7 +263,7 @@ describe('Forward Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-right'));
     await wait(() => container.querySelectorAll('.week'));
     const [, , , , , , sixth] = container.querySelectorAll('.week');
-    const resultDays = Array.from(sixth.childNodes).map(day => day.innerHTML);
+    const resultDays = Array.from(sixth.childNodes, day => day.innerHTML);
     expect(resultDays).toEqual(['05', '06', '07', '08', '09', '10', '11']);
   });
 
@@ -272,7 +272,7 @@ describe('Forward Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-left'));
     Simulate.click(getByTestId('btn-right'));
     await wait(() => container.querySelectorAll('.holiday'));
-    const holidays = Array.from(container.querySelectorAll('.holiday')).map(day => day.innerHTML);
+    const holidays = Array.from(container.querySelectorAll('.holiday'), day => day.innerHTML);
     expect(holidays).toEqual(['28']);
   });
 
@@ -281,7 +281,7 @@ describe('Forward Calendar should render correctly', () => {
     Simulate.click(getByTestId('btn-left'));
     Simulate.click(getByTestId('btn-right'));
     await wait(() => container.querySelectorAll('.soft'));
-    const soft = Array.from(container.querySelectorAll('.soft')).map(day => day.innerHTML);
+    const soft = Array.from(container.querySelectorAll('.soft'), day => day.innerHTML);
     expect(soft).toEqual(['29', '30', '31', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11']);
   });
 });
