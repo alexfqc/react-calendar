@@ -7,7 +7,7 @@ const webpack = require('webpack');
 module.exports = merge(common, {
   entry: [
     'react-hot-loader/patch',
-    './assets/js/components/index',
+    './view/js/components/index',
   ],
   devtool: 'inline-source-map',
   devServer: {
@@ -18,7 +18,7 @@ module.exports = merge(common, {
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       title: 'alexfqc',
-      template: 'assets/index-template.html',
+      template: 'view/index-template.html',
       minify: {
         collapseWhitespace: false,
       },

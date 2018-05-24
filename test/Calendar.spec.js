@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, Simulate, wait, cleanup } from 'react-testing-library';
-import { Calendar } from '../assets/js/components/calendar/Calendar';
+import { Calendar } from '../view/js/components/calendar/Calendar';
 
 const props = {
   year: 2017,
