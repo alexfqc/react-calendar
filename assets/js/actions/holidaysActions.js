@@ -6,7 +6,7 @@ export function addHolidays(holidays) {
 
 
 export function loadHolidays(year, month) {
-  const country = api.country === '' ? 'BR' : api.country;
+  const country = api.country || 'BR';
   const url = `https://holidayapi.com/v1/holidays?key=${api.key}&country=${country}&year=${year}&month=${month + 1}`;
   return (dispatch, getState, { axios }) => new Promise((resolve, reject) => {
     if (api.key) {
