@@ -9,7 +9,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 module.exports = merge(common, {
   devtool: 'source-map',
   entry: [
-    './assets/js/components/index',
+    './view/js/components/index',
   ],
   plugins: [
     new UglifyJSPlugin({
@@ -20,7 +20,7 @@ module.exports = merge(common, {
     }),
     new HtmlWebpackPlugin({
       title: 'alexfqc',
-      template: 'assets/index-template.html',
+      template: 'view/index-template.html',
       minify: {
         collapseWhitespace: true,
       },

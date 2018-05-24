@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import { renderIntoDocument, cleanup } from 'react-testing-library';
-import Other from '../assets/js/components/Other';
+import Other from '../view/js/components/Other';
 
 afterEach(cleanup);
 
