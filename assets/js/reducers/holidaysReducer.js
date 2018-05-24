@@ -7,8 +7,7 @@ export default function holidaysReducers(state = initialState.holidays, action) 
         ...state,
         action.holidays,
       ];
-    case 'ERROR':
-      return [{ error: 'no api key' }];
+
 
     default:
       return state;
